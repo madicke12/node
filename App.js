@@ -1,6 +1,6 @@
 import app from "./index.js";
 import { MongoClient } from "mongodb";
-//import ReviewsDao from "./dao/reviewsDao.js"
+import ReviewsDAO from "./dao/reviewsDAO.js"
 
 const Mongo_Client = MongoClient;
 
@@ -18,11 +18,12 @@ Mongo_Client.connect(uri, {
   useNewUrlParser: true,
 })
   .catch((err) => {
-    console.error(er.stack);
+    console.error(err.stack);
     process.exit(1);
   })
 
   .then(async (client) => {
+    await ReviewsDAO.injectDB(client)
     app.listen(port, () => {
       console.log(`Listening on port ${port}`);
     });
